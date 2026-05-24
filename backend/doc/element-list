@@ -1,0 +1,11 @@
+co.edu.unbosque.flightkoski
+co.edu.unbosque.flightkoski.configuration
+co.edu.unbosque.flightkoski.controller
+co.edu.unbosque.flightkoski.dto
+co.edu.unbosque.flightkoski.entity
+co.edu.unbosque.flightkoski.repository
+co.edu.unbosque.flightkoski.security
+co.edu.unbosque.flightkoski.service
+co.edu.unbosque.flightkoski.util
+co.edu.unbosque.flightkoski.util.enums
+co.edu.unbosque.flightkoski.util.exception
