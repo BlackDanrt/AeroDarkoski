@@ -77,7 +77,9 @@ public class UsuarioService implements CRUDOperation<UsuarioDTO> {
 	public int create(UsuarioDTO data) {
 		if (existsByNombreUsuario(data.getNombreUsuario())) return 1;
 	    if (!data.getNombreUsuario().matches("^[a-zA-Z0-9]+$")) return 2;
-
+	    if (!data.getContrasenia().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$")) return 3;
+	    if (data.getContrasenia().length() < 8) return 4;
+	    
 	    Usuario entity = modelMapper.map(data, Usuario.class);
 	    entity.setContrasenia(passwordEncoder.encode(data.getContrasenia()));
 	    entity.setAccountNonExpired(true);
@@ -86,9 +88,10 @@ public class UsuarioService implements CRUDOperation<UsuarioDTO> {
 	    entity.setEnabled(true);
 	    entity.setRol(Rol.USUARIO);
 	    entity.setCorreo(AESUtil.encrypt(key, iv, data.getCorreo()));
+	    if(usuarioRepository.existsByCorreo(entity.getCorreo())) return 5;
 	    if (data.getRol() != null) entity.setRol(data.getRol());
-	    correoService.enviarCorreoRegistro(data.getCorreo(), data.getNombreUsuario());
 	    usuarioRepository.save(entity);
+	    correoService.enviarCorreoRegistro(data.getCorreo(), data.getNombreUsuario());
 	    AuditoriaDTO auditoria = auditoriaService.preAccion(TipoAccion.CREATE, Servicio.USUARIO);
     	auditoriaService.create(auditoria);
 	    return 0;
@@ -155,7 +158,9 @@ public class UsuarioService implements CRUDOperation<UsuarioDTO> {
 	    Usuario temp = encontrado.get();
 	    temp.setNombreUsuario(newData.getNombreUsuario());
 	    if(!(newData.getContrasenia() == null)) {
+	    	if (!newData.getContrasenia().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$")) return 4;
 	    	temp.setContrasenia(passwordEncoder.encode(newData.getContrasenia()));
+	    	if (newData.getContrasenia().length() < 8) return 5;
 	    }
 	    if (newData.getRol() != null) {
 	        temp.setRol(newData.getRol());

@@ -1,8 +1,9 @@
 package co.edu.unbosque.flightkoski.service;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,9 @@ public class CorreoService {
 	@Autowired
 	private AuditoriaService auditoriaService;
 	
+	/** Logger para registrar mensajes durante el envio de correos. */
+	  private static final Logger log = LoggerFactory.getLogger(CorreoService.class);
+	  
 	/**
 	 * Constructor por defecto del servicio.
 	 */
@@ -66,7 +70,7 @@ public class CorreoService {
 	                        <span style="background-color: #2c3e50; color: #fff; font-size: 20px;
 	                            font-weight: bold; padding: 15px 30px;
 	                            border-radius: 8px;">
-	                            ¡Registro exitoso<br>en AeroDarkoski!
+	                            ¡Registro exitoso!
 	                        </span>
 	                    </div>
 	                    <hr style="border: 1px solid #eee;">
@@ -78,11 +82,11 @@ public class CorreoService {
 
 	        helper.setText(html, true);
 	        mailSender.send(mensaje);
-	        System.out.println("Correo de registro enviado a: " + destinatario);
+	        log.info("Correo de registro enviado a: " + destinatario);
 	        return 0;
 
 	    } catch (Exception e) {
-	        System.err.println("Error al enviar correo: " + e.getMessage());
+	        log.warn("Error al enviar correo: " + e.getMessage());
 	        return -1;
 	    }
 	}

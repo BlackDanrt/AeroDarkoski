@@ -48,7 +48,6 @@ public class Usuario implements UserDetails {
 
 	/** Clave secreta (encriptada habitualmente en el flujo de negocio). */
 	@NotBlank(message = "La contraseña no puede ser nula o estar vacia")
-	@Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
 	private String contrasenia;
 
 	/**
@@ -94,7 +93,7 @@ public class Usuario implements UserDetails {
 	 */
 	public Usuario(String nombreUsuario,
 			@Email(message = "El correo electrónico no es válido") @NotBlank(message = "El correo es obligatorio") String correo,
-			@NotBlank(message = "La contraseña no puede ser nula o estar vacia") @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres") String contrasenia) {
+			@NotBlank(message = "La contraseña no puede ser nula o estar vacia") @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres") String contrasenia) {
 		super();
 		this.nombreUsuario = nombreUsuario;
 		this.correo = correo;
@@ -112,7 +111,7 @@ public class Usuario implements UserDetails {
 	 */
 	public Usuario(String nombreUsuario,
 			@Email(message = "El correo electrónico no es válido") @NotBlank(message = "El correo es obligatorio") String correo,
-			@NotBlank(message = "La contraseña no puede ser nula o estar vacia") @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres") String contrasenia,
+			@NotBlank(message = "La contraseña no puede ser nula o estar vacia") @Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres") String contrasenia,
 			Rol rol) {
 		this();
 		this.nombreUsuario = nombreUsuario;

@@ -132,8 +132,11 @@ public class AuthController {
 	    int status = usuarioService.create(registerRequest);
 	    if(status == 0) return new ResponseEntity<String>("Usuario creado con exito", HttpStatus.CREATED);
 		else if(status == 1) return new ResponseEntity<String>("Error al crear el usuario, el nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
-		else return new ResponseEntity<String>("Error al crear el usuario, el nombre de usuario solo puede contener caracteres alfanuméricos", HttpStatus.BAD_REQUEST);
-	    }
+		else if(status == 2) return new ResponseEntity<String>("Error al crear el usuario, el nombre de usuario solo puede contener caracteres alfanuméricos", HttpStatus.BAD_REQUEST);
+		else if(status == 3) return new ResponseEntity<String>("Error al crear el usuario, la contraseña debe contener al menos una Mayúscula, una minúscula y un carácter especial", HttpStatus.BAD_REQUEST);
+		else if(status == 4) return new ResponseEntity<String>("Error al crear el usuario, la contraseña debe contener al menos 8 caracteres", HttpStatus.BAD_REQUEST);
+		else return new ResponseEntity<String>("Error al crear el usuario, el correo ya se encuentra registrado", HttpStatus.BAD_REQUEST);
+	 }
 	  
 	  
 	  /**

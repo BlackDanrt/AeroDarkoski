@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import com.google.gson.Gson;
 
@@ -26,6 +27,9 @@ import co.edu.unbosque.flightkoski.dto.ClimaDTO;
 @Service
 public class ExternalHTPPRequestHandler {
 
+	/** Logger para registrar mensajes durante la carga de datos. */
+	 private static final Logger log = LoggerFactory.getLogger(ExternalHTPPRequestHandler.class);
+	
 	/** Credencial tokenizada inyectada del archivo de propiedades para el acceso a Aviation Edge. */
 	@Value("${api.key}")
 	private String apiKeyAvion;
@@ -72,7 +76,7 @@ public class ExternalHTPPRequestHandler {
 				        respuesta.body() == null || 
 				        respuesta.body().isBlank() ||
 				        !respuesta.body().trim().startsWith("[")) { 
-				        System.out.println("Sin datos para -> " + aeropuerto);
+				        log.warn("Sin datos para -> " + aeropuerto);
 				        Thread.sleep(250);
 				        continue;
 				    }
@@ -85,8 +89,8 @@ public class ExternalHTPPRequestHandler {
 				}
 				Thread.sleep(250);
 
-				System.out.println("Status code -> " + respuesta.statusCode());
-				System.out.println("aeropuerto llamado -> " + aeropuerto);
+				log.info("Status code Avion -> " + respuesta.statusCode());
+				log.info("aeropuerto llamado -> " + aeropuerto);
 
 			} catch (IOException | InterruptedException e) {
 				e.printStackTrace();
@@ -112,18 +116,14 @@ public class ExternalHTPPRequestHandler {
 			try {
 				HttpResponse<String> respuesta = HTTP_CLIENT.send(solicitud, HttpResponse.BodyHandlers.ofString());
 
-				System.out.println("Status code -> " + respuesta.statusCode());
-				System.out.println("aeropuerto llamado -> " + aeropuerto);
+				log.info("Status code Clima -> " + respuesta.statusCode());
+				log.info("aeropuerto llamado -> " + aeropuerto);
 				
 				if (respuesta.statusCode() != 200 ||
 					    respuesta.body() == null ||
 					    respuesta.body().isBlank()) {
 
-					    System.out.println(
-					        "Sin datos para -> " +
-					        aeropuerto
-					    );
-
+					    log.warn("Sin datos para -> " + aeropuerto );
 					    continue;
 					}
 				
