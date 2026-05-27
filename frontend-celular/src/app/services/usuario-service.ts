@@ -39,7 +39,7 @@ export class UsuarioService {
    * @returns Mensaje de confirmación enviado por el servidor.
    */
   actualizar(usuario: Usuario, idUsuario: number){
-    return this.cliente.put(`${this.urlBase}/actualizar/${idUsuario}`, usuario, {responseType: "text"});
+    return this.cliente.put<{ token:string, role:string }>(`${this.urlBase}/actualizar/${idUsuario}`, usuario);
   }
 
   /**

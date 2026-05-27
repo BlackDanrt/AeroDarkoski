@@ -346,6 +346,8 @@ export class Mapa implements AfterViewInit, OnDestroy {
    * @param climas Reportes meteorológicos obtenidos.
    */
   private mostrarMarcadoresClima(climas: Clima[]): void {
+    if(!this.map) return;
+
     this.marcadoresClima.forEach((m) => this.map.removeLayer(m));
     this.marcadoresClima.clear();
 
