@@ -77,6 +77,7 @@ public class UsuarioService implements CRUDOperation<UsuarioDTO> {
 	public int create(UsuarioDTO data) {
 		if (existsByNombreUsuario(data.getNombreUsuario())) return 1;
 	    if (!data.getNombreUsuario().matches("^[a-zA-Z0-9]+$")) return 2;
+	    if (!data.getContrasenia().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$")) return 3;
 
 	    Usuario entity = modelMapper.map(data, Usuario.class);
 	    entity.setContrasenia(passwordEncoder.encode(data.getContrasenia()));
@@ -155,6 +156,7 @@ public class UsuarioService implements CRUDOperation<UsuarioDTO> {
 	    Usuario temp = encontrado.get();
 	    temp.setNombreUsuario(newData.getNombreUsuario());
 	    if(!(newData.getContrasenia() == null)) {
+	    	if (!newData.getContrasenia().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$")) return 3;
 	    	temp.setContrasenia(passwordEncoder.encode(newData.getContrasenia()));
 	    }
 	    if (newData.getRol() != null) {

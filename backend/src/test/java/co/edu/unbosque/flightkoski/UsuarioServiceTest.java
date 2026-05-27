@@ -59,12 +59,12 @@ class UsuarioServiceTest {
 
     @Test
     void createRegistroExitosoDebeRetornarCero() {
-        UsuarioDTO dto = buildDTO("Santiago", "claveSegura", "santiago@test.com", Rol.USUARIO);
+        UsuarioDTO dto = buildDTO("Santiago", "claveSegurA*", "santiago@test.com", Rol.USUARIO);
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("Santiago")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("claveSegura")).thenReturn("hash123");
+        when(passwordEncoder.encode("claveSegurA*")).thenReturn("hash123");
 
         int resultado = usuarioService.create(dto);
 
@@ -100,12 +100,12 @@ class UsuarioServiceTest {
 
     @Test
     void createRolNullEnDTODebeAsignarRolUsuarioPorDefecto() {
-        UsuarioDTO dto = buildDTO("Santiago", "clave", "s@test.com", null); 
+        UsuarioDTO dto = buildDTO("Santiago", "clavE*", "s@test.com", null); 
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("Santiago")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clave")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
 
         usuarioService.create(dto);
 
@@ -115,12 +115,12 @@ class UsuarioServiceTest {
 
     @Test
     void createRolNoNullEnDTODebeRespestarElRolRecibido() {
-        UsuarioDTO dto = buildDTO("AdminUser", "clave", "admin@test.com", Rol.ADMINISTRADOR);
+        UsuarioDTO dto = buildDTO("AdminUser", "clavE*", "admin@test.com", Rol.ADMINISTRADOR);
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("AdminUser")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clave")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
 
         usuarioService.create(dto);
 
@@ -130,12 +130,12 @@ class UsuarioServiceTest {
     @Test
     void createDebeEnviarCorreoConEmailOriginalSinEncriptar() {
         String correoOriginal = "santiago@test.com";
-        UsuarioDTO dto = buildDTO("Santiago", "clave", correoOriginal, Rol.USUARIO);
+        UsuarioDTO dto = buildDTO("Santiago", "clavE*", correoOriginal, Rol.USUARIO);
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("Santiago")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clave")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
 
         usuarioService.create(dto);
 
@@ -145,12 +145,12 @@ class UsuarioServiceTest {
     @Test
     void createDebeGuardarCorreoEncriptadoEnLaEntidad() {
         String correoOriginal = "santiago@test.com";
-        UsuarioDTO dto = buildDTO("Santiago", "clave", correoOriginal, Rol.USUARIO);
+        UsuarioDTO dto = buildDTO("Santiago", "clavE*", correoOriginal, Rol.USUARIO);
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("Santiago")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clave")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
 
         usuarioService.create(dto);
 
@@ -242,11 +242,11 @@ class UsuarioServiceTest {
         existente.setId(1L);
         existente.setNombreUsuario("santiagoViejo");
 
-        UsuarioDTO newData = buildDTO("santiagoNuevo", "nuevaClave", null, Rol.ADMINISTRADOR);
+        UsuarioDTO newData = buildDTO("santiagoNuevo", "nuevaClave*", null, Rol.ADMINISTRADOR);
 
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(existente));
         when(usuarioRepository.findByNombreUsuario("santiagoNuevo")).thenReturn(Optional.empty());
-        when(passwordEncoder.encode("nuevaClave")).thenReturn("hashNuevo");
+        when(passwordEncoder.encode("nuevaClave*")).thenReturn("hashNuevo");
 
         int resultado = usuarioService.updateById(1L, newData);
 

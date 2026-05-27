@@ -63,7 +63,8 @@ public class UsuarioController {
 		int status = usuarioService.create(usuario);
 		if(status == 0) return new ResponseEntity<String>("Usuario creado con exito", HttpStatus.CREATED);
 		else if(status == 1) return new ResponseEntity<String>("Error al crear el usuario, el nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
-		else return new ResponseEntity<String>("Error al crear el usuario, el nombre de usuario solo puede contener caracteres alfanuméricos", HttpStatus.BAD_REQUEST);
+		else if(status == 2) return new ResponseEntity<String>("Error al crear el usuario, el nombre de usuario solo puede contener caracteres alfanuméricos", HttpStatus.BAD_REQUEST);
+		else return new ResponseEntity<String>("Error al crear el usuario, la contraseña debe contener al menos una Mayúscula, una minúscula y un carácter especial", HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
@@ -102,7 +103,8 @@ public class UsuarioController {
 		}
 		else if(status == 1) return new ResponseEntity<String>("Error al actualizar el usuario, no existe el usuario", HttpStatus.NOT_FOUND);
 		else if(status == 2) return new ResponseEntity<String>("Error al actualizar el usuario, el nombre de usuario ya existe", HttpStatus.BAD_REQUEST);
-		else return new ResponseEntity<String>("Error al actualizar el usuario, el nombre de usuario solo puede contener caracteres alfanuméricos", HttpStatus.BAD_REQUEST);
+		else if(status == 3) return new ResponseEntity<String>("Error al actualizar el usuario, el nombre de usuario solo puede contener caracteres alfanuméricos", HttpStatus.BAD_REQUEST);
+		else return new ResponseEntity<String>("Error al actualizar el usuario, la contraseña debe contener al menos una Mayúscula, una minúscula y un carácter especial", HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
