@@ -34,12 +34,10 @@ public class ExternalHTPPRequestHandler {
 	@Value("${api.key}")
 	private String apiKeyAvion;
 
-	private static final List<String> AEROPUERTOS_SA = List.of("BOG");
-	
 	/** Listado estático estructurado con códigos IATA detallados de Sudamérica para consultar los aviones */
-//	private static final List<String> AEROPUERTOS_SA = List.of("BOG", "MDE", "CLO", "CTG", "BAQ", "ADZ", "GRU", "GIG",
-//			"BSB", "SSA", "FOR", "REC", "EZE", "AEP", "COR", "MDZ", "SCL", "PMC", "IQQ", "LIM", "CUZ", "AQP", "UIO",
-//			"GYE", "CCS", "MAR", "VVI", "LPB", "MVD", "ASU", "GEO", "PBM");
+	private static final List<String> AEROPUERTOS_SA = List.of("BOG", "MDE", "CLO", "CTG", "BAQ", "ADZ", "GRU", "GIG",
+			"BSB", "SSA", "FOR", "REC", "EZE", "AEP", "COR", "MDZ", "SCL", "PMC", "IQQ", "LIM", "CUZ", "AQP", "UIO",
+			"GYE", "CCS", "MAR", "VVI", "LPB", "MVD", "ASU", "GEO", "PBM");
 
 	/** Listado estático estructurado con códigos ICAO detallados de Sudamérica para consultas del METAR. */
 	private static final List<String> AEROPUERTOS_SA_ICAO = List.of("SKBO", "SKRG", "SKCL", "SKCG", "SKBQ", "SKSP",
