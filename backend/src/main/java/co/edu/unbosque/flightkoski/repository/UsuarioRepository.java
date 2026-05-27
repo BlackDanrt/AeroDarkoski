@@ -27,4 +27,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	 * @return Un contenedor {@link Optional} que incluye al {@link Usuario} si se encuentra en los registros
 	 */
 	public Optional<Usuario> findByNombreUsuario(String nombreUsuario);
+	
+	/**
+	 * Verifica la existencia previa en el sistema de una cuenta mediante su correo.
+	 * * @param correo Correo de usuario a comprobar
+	 * @return {@code true} si el nombre de usuario ya está registrado, de lo contrario {@code false}
+	 */
+	public boolean existsByCorreo(String correo);
 }

@@ -88,9 +88,10 @@ public class UsuarioService implements CRUDOperation<UsuarioDTO> {
 	    entity.setEnabled(true);
 	    entity.setRol(Rol.USUARIO);
 	    entity.setCorreo(AESUtil.encrypt(key, iv, data.getCorreo()));
+	    if(usuarioRepository.existsByCorreo(entity.getCorreo())) return 5;
 	    if (data.getRol() != null) entity.setRol(data.getRol());
-	    correoService.enviarCorreoRegistro(data.getCorreo(), data.getNombreUsuario());
 	    usuarioRepository.save(entity);
+	    correoService.enviarCorreoRegistro(data.getCorreo(), data.getNombreUsuario());
 	    AuditoriaDTO auditoria = auditoriaService.preAccion(TipoAccion.CREATE, Servicio.USUARIO);
     	auditoriaService.create(auditoria);
 	    return 0;
