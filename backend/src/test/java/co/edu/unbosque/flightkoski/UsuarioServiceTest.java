@@ -100,12 +100,12 @@ class UsuarioServiceTest {
 
     @Test
     void createRolNullEnDTODebeAsignarRolUsuarioPorDefecto() {
-        UsuarioDTO dto = buildDTO("Santiago", "clavE*", "s@test.com", null); 
+        UsuarioDTO dto = buildDTO("Santiago", "clavE*123", "s@test.com", null); 
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("Santiago")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*123")).thenReturn("hash");
 
         usuarioService.create(dto);
 
@@ -115,12 +115,12 @@ class UsuarioServiceTest {
 
     @Test
     void createRolNoNullEnDTODebeRespestarElRolRecibido() {
-        UsuarioDTO dto = buildDTO("AdminUser", "clavE*", "admin@test.com", Rol.ADMINISTRADOR);
+        UsuarioDTO dto = buildDTO("AdminUser", "clavE*123", "admin@test.com", Rol.ADMINISTRADOR);
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("AdminUser")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*123")).thenReturn("hash");
 
         usuarioService.create(dto);
 
@@ -130,12 +130,12 @@ class UsuarioServiceTest {
     @Test
     void createDebeEnviarCorreoConEmailOriginalSinEncriptar() {
         String correoOriginal = "santiago@test.com";
-        UsuarioDTO dto = buildDTO("Santiago", "clavE*", correoOriginal, Rol.USUARIO);
+        UsuarioDTO dto = buildDTO("Santiago", "clavE*123", correoOriginal, Rol.USUARIO);
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("Santiago")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*123")).thenReturn("hash");
 
         usuarioService.create(dto);
 
@@ -145,12 +145,12 @@ class UsuarioServiceTest {
     @Test
     void createDebeGuardarCorreoEncriptadoEnLaEntidad() {
         String correoOriginal = "santiago@test.com";
-        UsuarioDTO dto = buildDTO("Santiago", "clavE*", correoOriginal, Rol.USUARIO);
+        UsuarioDTO dto = buildDTO("Santiago", "clavE*123", correoOriginal, Rol.USUARIO);
         Usuario entity = new Usuario();
 
         when(usuarioRepository.existsByNombreUsuario("Santiago")).thenReturn(false);
         when(modelMapper.map(dto, Usuario.class)).thenReturn(entity);
-        when(passwordEncoder.encode("clavE*")).thenReturn("hash");
+        when(passwordEncoder.encode("clavE*123")).thenReturn("hash");
 
         usuarioService.create(dto);
 

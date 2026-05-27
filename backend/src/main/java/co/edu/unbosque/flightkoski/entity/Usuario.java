@@ -48,7 +48,6 @@ public class Usuario implements UserDetails {
 
 	/** Clave secreta (encriptada habitualmente en el flujo de negocio). */
 	@NotBlank(message = "La contraseña no puede ser nula o estar vacia")
-	@Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
 	private String contrasenia;
 
 	/**
