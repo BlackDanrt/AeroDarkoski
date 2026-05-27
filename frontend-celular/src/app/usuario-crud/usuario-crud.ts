@@ -226,7 +226,7 @@ export class UsuarioCrud {
    * Guarda un nuevo usuario o actualiza uno existente.
    */
   guardar(): void {
-    if (this.guardando) return; // Evitar doble click
+    if (this.guardando) return;
 
     this.mensajeError = '';
     this.mensajeExito = '';
@@ -245,7 +245,7 @@ export class UsuarioCrud {
 
     if (this.usuarioForm.contrasenia) {
       if (this.usuarioForm.contrasenia.length < 6) {
-        this.mensajeError = 'La contraseña debe tener al menos 6 caracteres';
+        this.mensajeError = 'La contraseña debe tener al menos 8 caracteres';
         this.cdr.detectChanges();
         return;
       }
@@ -254,12 +254,18 @@ export class UsuarioCrud {
         this.cdr.detectChanges();
         return;
       }
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$/.test(this.usuarioForm.contrasenia)) {
+        this.mensajeError = 'La contraseña debe contener al menos una mayúscula, una minúscula y un carácter especial';
+        return;
+      }
     }
 
-    if (this.usuarioForm.correo !== this.confirmarCorreo) {
-      this.mensajeError = 'Los correos no coinciden';
-      this.cdr.detectChanges();
-      return;
+    if(!this.modoEdicion) {
+      if (this.usuarioForm.correo !== this.confirmarCorreo) {
+        this.mensajeError = 'Los correos no coinciden';
+        this.cdr.detectChanges();
+        return;
+      }
     }
 
     this.guardando = true;
@@ -282,9 +288,9 @@ export class UsuarioCrud {
           this.cdr.detectChanges();
         })
       ).subscribe({
-        next: (resp: string) => {
+        next: () => {
           this.ngZone.run(() => {
-            this.mensajeExito = resp;
+            this.mensajeExito = 'Usuario actualizado correctamente';
             this.cerrarModal();
             this.cargarUsuarios();
           });

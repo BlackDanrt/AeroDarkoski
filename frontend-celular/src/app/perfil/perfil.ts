@@ -127,6 +127,10 @@ export class Perfil {
         this.toast.mostrar('La contraseña debe tener al menos 8 caracteres', false);
         return;
       }
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).+$/.test(this.usuario.contrasenia)) {
+        this.toast.mostrar('La contraseña debe contener al menos una mayúscula, una minúscula y un carácter especial', false);
+        return;
+      }
     }
 
     this.guardando = true;
@@ -134,7 +138,8 @@ export class Perfil {
     const payload: Usuario = {
       id: this.usuario.id,
       nombreUsuario: this.usuario.nombreUsuario,
-      correo: this.usuario.correo
+      correo: this.usuario.correo,
+      rol: this.usuario.rol
     };
 
     if (hayContrasenia) payload.contrasenia = this.usuario.contrasenia;
@@ -151,9 +156,10 @@ export class Perfil {
         this.usuario.contrasenia = '';
         this.confirmarContrasenia = '';
 
-        // Guardar nuevo token
-        if (respuesta.trim()) {
-          this.jwt.setToken(respuesta.trim());
+        if(respuesta){
+          if (respuesta?.token) {
+            this.jwt.setToken(respuesta.token);
+          }
         }
 
         this.toast.mostrar('Cambios guardados correctamente', true);
